@@ -1,6 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let models = require('../models');
+const config = require('../../config/config.json');
 const version = require('../../package.json').version;
 
 router.use((req, res, next) => {
@@ -9,7 +10,7 @@ router.use((req, res, next) => {
 });
 
 router.get('/', function (req, res) {
-    res.redirect('https://www.senorsen.com');
+    res.redirect(config.default_url);
 });
 
 router.get('/:linkToken', async function (req, res, next) {
