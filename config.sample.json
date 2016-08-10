@@ -1,9 +1,0 @@
-{
-    "database": {
-        "mode": "master",
-        "host": "",
-        "user": "",
-        "password": "",
-        "db": ""
-    }
-}
