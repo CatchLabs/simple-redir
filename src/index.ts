@@ -8,18 +8,23 @@ app.use(async (ctx, next) => {
     try {
         await next();
     } catch (e) {
+        console.error(e);
         ctx.status = e.status || 500;
         ctx.body = e.message || 'Internal Server Error';
     }
 });
 
-app.use(bodyParser);
+app.use(bodyParser());
 
-app.use(async (ctx) => {
-    ctx.set('X-Redirect-Service-Version', pkg.version);
+app.use(async (ctx, next) => {
+    // ctx.set('X-Redirect-Service-Version', pkg.version);
+    next();
 });
 
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-app.listen(process.env.PORT || 3020);
+const port = process.env.PORT || 3020;
+app.listen(port);
+
+console.log(`Redirect Service listening on port ${port}.`);
