@@ -6,3 +6,4 @@ config.json
 dist
 npm-debug.log
 typings
+.browse.VC*

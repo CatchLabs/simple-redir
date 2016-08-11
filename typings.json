@@ -1,5 +1,9 @@
 {
   "dependencies": {
     "sequelize": "registry:npm/sequelize#3.0.0+20160801095441"
+  },
+  "globalDependencies": {
+    "koa": "registry:dt/koa#2.0.0+20160724024233",
+    "node": "registry:env/node#6.0.0+20160723033700"
   }
 }
