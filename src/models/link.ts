@@ -6,7 +6,9 @@ interface LinkObject {
     linkUrl: string
 }
 
-export default function(sequelize: Sequelize.Connection, DataTypes: Sequelize.DataTypes) {
+interface LinkInstance extends Sequelize.Instance<LinkInstance, LinkObject>, LinkObject {}
+
+export default function(sequelize: Sequelize.Connection, DataTypes: Sequelize.DataTypes = Sequelize) : Sequelize.Model<LinkInstance, LinkObject> {
     return sequelize.define('Link', {
         linkId: {
             type: DataTypes.UUID,
@@ -24,5 +26,5 @@ export default function(sequelize: Sequelize.Connection, DataTypes: Sequelize.Da
         classMethods: {},
         charset: 'utf8',
         collate: 'utf8_general_ci'
-    });
+    }) as any;
 }

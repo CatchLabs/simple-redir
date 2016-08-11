@@ -4,7 +4,7 @@ const router = new Router();
 
 router.get('/links/:token', async (ctx, next) => {
     const {token} = ctx.params;
-    const link = await models.Link.findOne({
+    const link = await models.link.findOne({
         where: {
             linkToken: token
         }
@@ -12,34 +12,12 @@ router.get('/links/:token', async (ctx, next) => {
     if (!link) {
         ctx.status = 404;
     } else {
-        ctx.redirect(link.linkUrl)
+        ctx.redirect(link.linkUrl);
     }
 });
 
 export default router;
 
-
-router.get('/:linkToken', async function (req, res, next) {
-    try {
-        let linkObject = await models.Link.findOne({
-            where: {
-                linkToken: req.params.linkToken
-            }
-        });
-        if (!linkObject) {
-            return next();
-        }
-        res.header('X-Redir', linkObject.linkUrl);
-        res.redirect(linkObject.linkUrl);
-    } catch (e) {
-        console.error(e);
-        res.status(500);
-        res.render('error', {
-            message: e.message || '出错啦',
-            error: e
-        });
-    }
-});
 
 router.get('/create', async function (req, res, next) {
     try {
