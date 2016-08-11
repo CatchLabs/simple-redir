@@ -1,4 +1,5 @@
 import * as Koa from 'koa';
+import * as bodyParser from 'koa-bodyparser';
 import router from './routes';
 const app = new Koa();
 const pkg = require('../package');
@@ -11,6 +12,8 @@ app.use(async (ctx, next) => {
         ctx.body = e.message || 'Internal Server Error';
     }
 });
+
+app.use(bodyParser);
 
 app.use(async (ctx) => {
     ctx.set('X-Redirect-Service-Version', pkg.version);

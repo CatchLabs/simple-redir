@@ -1,7 +1,7 @@
 import * as Sequelize from 'sequelize';
 
 interface LinkObject {
-    linkId: string,
+    linkId?: string,
     linkToken: string,
     linkUrl: string
 }
