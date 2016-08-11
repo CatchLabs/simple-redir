@@ -1,5 +1,11 @@
 import * as Sequelize from 'sequelize';
 
+interface LinkObject {
+    linkId: string,
+    linkToken: string,
+    linkUrl: string
+}
+
 export default function(sequelize: Sequelize.Connection, DataTypes: Sequelize.DataTypes) {
     return sequelize.define('Link', {
         linkId: {

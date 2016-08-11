@@ -1,17 +1,23 @@
-let express = require('express');
-let router = express.Router();
-let models = require('../models');
-const config = require('../../config/config.json');
-const version = require('../../package.json').version;
+import * as Router from 'koa-router';
+import models from '../models';
+const router = new Router();
 
-router.use((req, res, next) => {
-    res.header('X-SemRedir-Version', version);
-    next();
+router.get('/links/:token', async (ctx, next) => {
+    const {token} = ctx.params;
+    const link = await models.Link.findOne({
+        where: {
+            linkToken: token
+        }
+    });
+    if (!link) {
+        ctx.status = 404;
+    } else {
+        ctx.redirect(link.linkUrl)
+    }
 });
 
-router.get('/', function (req, res) {
-    res.redirect(config.default_url);
-});
+export default router;
+
 
 router.get('/:linkToken', async function (req, res, next) {
     try {
@@ -62,5 +68,3 @@ router.get('/create', async function (req, res, next) {
         });
     }
 });
-
-module.exports = router;
