@@ -7,24 +7,10 @@
     "build": "sh ./scripts/build.sh"
   },
   "dependencies": {
-    "babel-core": "^6.7.7",
-    "babel-polyfill": "^6.7.4",
-    "babel-preset-node6": "^11.0.0",
-    "body-parser": "~1.15.0",
-    "cookie-parser": "~1.4.1",
-    "debug": "~2.2.0",
-    "express": "~4.13.4",
-    "jade": "~1.11.0",
-    "morgan": "~1.7.0",
     "mysql": "^2.10.2",
     "sequelize": "^3.20.0",
-    "sequelize-cli": "^2.3.1",
-    "serve-favicon": "~2.3.0"
+    "sequelize-cli": "^2.3.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.6.5",
-    "babel-plugin-syntax-async-functions": "^6.5.0",
-    "babel-plugin-transform-regenerator": "^6.6.5",
-    "babel-preset-stage-0": "^6.5.0"
   }
 }
