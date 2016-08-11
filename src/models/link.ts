@@ -1,25 +1,22 @@
 import * as Sequelize from 'sequelize';
 
-
-module.exports = function (sequelize) {
-    const Link = sequelize.define('Link', {
+export default function(sequelize: Sequelize.Connection, DataTypes: Sequelize.DataTypes) {
+    return sequelize.define('Link', {
         linkId: {
-            type: Sequelize.UUID,
-            defaultValue: Sequelize.UUIDV4,
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
         linkToken: {
-            type: Sequelize.STRING,
+            type: DataTypes.STRING,
             unique: true
         },
         linkUrl: {
-            type: Sequelize.STRING(4096)
+            type: DataTypes.STRING(4096)
         }
     }, {
         classMethods: {},
         charset: 'utf8',
         collate: 'utf8_general_ci'
     });
-
-    return Link;
-};
+}
