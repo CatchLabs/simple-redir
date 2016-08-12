@@ -7,13 +7,24 @@ async function redirect(ctx: Router.IRouterContext) {
     const link = await models.link.findOne({ where: { token } });
     if (!link) {
         ctx.status = 404;
-    } else {
-        let url = link.references;
-        if (param) {
-            url = url.replace('${param}', param);
-        }
-        ctx.redirect(url);
+        return;
     }
+    let ref = JSON.parse(link.references).filter((ref: {url: string, userAgent: string}) => {
+        if (!ref.userAgent) {
+            return true;
+        } else {
+            let regexp = new RegExp(ref.userAgent);
+            return regexp.test(ctx.req.headers['user-agent']);
+        }
+    })[0];
+    if (!ref) {
+        ctx.status = 404;
+        return;
+    }
+    if (param) {
+        ref.url = ref.url.replace('${param}', param);
+    }
+    ctx.redirect(ref.url);
 }
 
 router.get('/:token', redirect);
