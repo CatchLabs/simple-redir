@@ -20,25 +20,48 @@ async function redirect(ctx: Router.IRouterContext) {
     }
 }
 
-router.get('/links/:token', redirect);
-router.get('/links/:token/:param', redirect);
+router.get('/:token', redirect);
+router.get('/:token/:param', redirect);
 
-router.get('/links', async (ctx) => {
+/**
+ * @api {GET} / List all links
+ * @apiName ListLinks
+ * @apiGroup Link
+ */
+router.get('/', async (ctx) => {
     const links = await models.link.findAll();
     ctx.type = '.json';
     ctx.body = JSON.stringify(links);
 });
 
-router.post('/links', async (ctx: any) => {
-    const {linkToken, linkUrl} = ctx.request.body;
-    if (!linkToken || !linkUrl) {
-        throw new Error('Invalid linkToken or linkUrl');
+/**
+ * @api {PUT} /:token Create or update link
+ * @apiName PutLink
+ * @apiGroup Link
+ */
+router.put('/:token', async (ctx: any) => {
+    const {token} = ctx.params;
+    const {url} = ctx.request.body;
+    const link = await models.link.findOne({
+        where: {
+            linkToken: token
+        }
+    });
+    if (!link) {
+        await models.link.create({linkToken: token, linkUrl: url});
+    } else {
+        link.set('linkUrl', url);
+        await link.save();
     }
-    const link = await models.link.create({linkToken, linkUrl});
     ctx.body = 'OK';
 });
 
-router.delete('/links/:token', async (ctx) => {
+/**
+ * @api {DELETE} /:token Delete link
+ * @apiName DeleteLink
+ * @apiGroup Link
+ */
+router.delete('/:token', async (ctx) => {
     const {token} = ctx.params;
     const link = await models.link.findOne({
         where: {
