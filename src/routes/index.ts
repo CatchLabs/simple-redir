@@ -4,15 +4,11 @@ const router = new Router();
 
 async function redirect(ctx: Router.IRouterContext) {
     const {token, param} = ctx.params;
-    const link = await models.link.findOne({
-        where: {
-            linkToken: token
-        }
-    });
+    const link = await models.link.findOne({ where: { token } });
     if (!link) {
         ctx.status = 404;
     } else {
-        let url = link.linkUrl;
+        let url = link.url;
         if (param) {
             url = url.replace('${param}', param);
         }
@@ -44,22 +40,14 @@ router.get('/', async (ctx) => {
 router.put('/:token', async (ctx: any) => {
     const {token} = ctx.params;
     const {body} = ctx.request;
-    const link = await models.link.findOne({
-        where: {
-            linkToken: token
-        }
-    });
-    if (!link) {
-        await models.link.create({linkToken: token, linkUrl: body.url});
-    } else {
-        if (body.url) {
-            link.set('linkUrl', body.url);
-        }
-        if (body.token) {
-            link.set('linkToken', body.token);
-        }
-        await link.save();
+    const [link, created] = await models.link.findOrCreate({ where: { token } });
+    if (body.url) {
+        link.set('url', body.url);
     }
+    if (body.token) {
+        link.set('token', body.token);
+    }
+    await link.save();
     ctx.body = 'OK';
 });
 
@@ -70,11 +58,7 @@ router.put('/:token', async (ctx: any) => {
  */
 router.delete('/:token', async (ctx) => {
     const {token} = ctx.params;
-    const link = await models.link.findOne({
-        where: {
-            linkToken: token
-        }
-    });
+    const link = await models.link.findOne({ where: { token } });
     if (!link) {
         ctx.status = 404;
     } else {

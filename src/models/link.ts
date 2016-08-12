@@ -1,25 +1,25 @@
 import * as Sequelize from 'sequelize';
 
 interface LinkObject {
-    linkId?: string,
-    linkToken: string,
-    linkUrl: string
+    id?: string,
+    token: string,
+    url: string
 }
 
 interface LinkInstance extends Sequelize.Instance<LinkInstance, LinkObject>, LinkObject {}
 
 export default function(sequelize: Sequelize.Connection, DataTypes: Sequelize.DataTypes = Sequelize) : Sequelize.Model<LinkInstance, LinkObject> {
     return sequelize.define('Link', {
-        linkId: {
+        id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
-        linkToken: {
+        token: {
             type: DataTypes.STRING,
             unique: true
         },
-        linkUrl: {
+        url: {
             type: DataTypes.STRING(4096)
         }
     }, {
