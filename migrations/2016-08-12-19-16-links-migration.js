@@ -19,7 +19,7 @@ module.exports = {
             type: Sequelize.STRING,
             unique: true
         },
-        url: {
+        references: {
             type: Sequelize.STRING(4096)
         },
         createdAt: {

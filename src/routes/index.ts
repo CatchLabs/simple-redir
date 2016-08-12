@@ -8,7 +8,7 @@ async function redirect(ctx: Router.IRouterContext) {
     if (!link) {
         ctx.status = 404;
     } else {
-        let url = link.url;
+        let url = link.references;
         if (param) {
             url = url.replace('${param}', param);
         }
@@ -27,7 +27,7 @@ router.get('/:token/:param', redirect);
 router.get('/', async (ctx) => {
     const links = await models.link.findAll();
     ctx.type = '.json';
-    ctx.body = JSON.stringify(links);
+    ctx.body = JSON.stringify(links.map((link) => (link.references = JSON.parse(link.references)) && link));
 });
 
 /**
@@ -42,7 +42,7 @@ router.put('/:token', async (ctx: any) => {
     const {body} = ctx.request;
     const [link, created] = await models.link.findOrCreate({ where: { token } });
     if (body.url) {
-        link.set('url', body.url);
+        link.set('references', JSON.stringify([ {url: body.url} ]));
     }
     if (body.token) {
         link.set('token', body.token);

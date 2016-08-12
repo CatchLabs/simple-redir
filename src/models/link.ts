@@ -3,7 +3,7 @@ import * as Sequelize from 'sequelize';
 interface LinkObject {
     id?: string,
     token: string,
-    url: string
+    references: string
 }
 
 interface LinkInstance extends Sequelize.Instance<LinkInstance, LinkObject>, LinkObject {}
@@ -19,7 +19,7 @@ export default function(sequelize: Sequelize.Connection, DataTypes: Sequelize.Da
             type: DataTypes.STRING,
             unique: true
         },
-        url: {
+        references: {
             type: DataTypes.STRING(4096)
         }
     }, {
