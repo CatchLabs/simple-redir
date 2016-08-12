@@ -9,7 +9,7 @@ module.exports = {
       Example:
       return queryInterface.createTable('users', { id: Sequelize.INTEGER });
     */
-    queryInterface.createTable('links', {
+    queryInterface.createTable('Links', {
         id: {
             type: Sequelize.UUID,
             defaultValue: Sequelize.UUIDV4,
