@@ -21,6 +21,12 @@ module.exports = {
         },
         url: {
             type: Sequelize.STRING(4096)
+        },
+        createdAt: {
+            type: Sequelize.DATE
+        },
+        updatedAt: {
+            type: Sequelize.DATE
         }
     }, {
         charset: 'utf8',
