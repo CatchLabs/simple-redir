@@ -38,4 +38,19 @@ router.post('/links', async (ctx: any) => {
     ctx.body = 'OK';
 });
 
+router.delete('/links/:token', async (ctx) => {
+    const {token} = ctx.params;
+    const link = await models.link.findOne({
+        where: {
+            linkToken: token
+        }
+    });
+    if (!link) {
+        ctx.status = 404;
+    } else {
+        link.destroy();
+    }
+    ctx.body = 'OK';
+})
+
 export default router;
