@@ -14,7 +14,7 @@ async function redirect(ctx: Router.IRouterContext) {
     } else {
         let url = link.linkUrl;
         if (param) {
-            url = url.replace(/${param}/g, param);
+            url = url.replace('${param}', param);
         }
         ctx.redirect(url);
     }
