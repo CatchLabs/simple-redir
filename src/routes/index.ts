@@ -48,7 +48,7 @@ router.delete('/links/:token', async (ctx) => {
     if (!link) {
         ctx.status = 404;
     } else {
-        link.destroy();
+        await link.destroy();
     }
     ctx.body = 'OK';
 })
