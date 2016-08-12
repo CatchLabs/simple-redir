@@ -2,6 +2,9 @@ import * as Router from 'koa-router';
 import models from '../models';
 import * as uuid from 'node-uuid';
 const router = new Router();
+const config = require('../../config');
+
+const auth = require('koa-basic-auth')({ name: config.authorization.username, pass: config.authorization.password });
 
 async function redirect(ctx: Router.IRouterContext) {
     const {token, param} = ctx.params;
@@ -36,7 +39,7 @@ router.get('/:token/:param', redirect);
  * @apiName ListLinks
  * @apiGroup Link
  */
-router.get('/', async (ctx) => {
+router.get('/', auth, async (ctx) => {
     const links = await models.link.findAll();
     ctx.type = '.json';
     ctx.body = JSON.stringify(links.map((link) => (link.references = JSON.parse(link.references || '[]')) && link));
@@ -49,7 +52,7 @@ router.get('/', async (ctx) => {
  * @apiParam {String} token
  * @apiParam {Array} references
  */
-router.put('/:token', async (ctx: any) => {
+router.put('/:token', auth, async (ctx: any) => {
     const {token} = ctx.params;
     const {body} = ctx.request;
     const [link, created] = await models.link.findOrCreate({ where: { token } });
@@ -68,7 +71,7 @@ router.put('/:token', async (ctx: any) => {
  * @apiName DeleteLink
  * @apiGroup Link
  */
-router.delete('/:token', async (ctx) => {
+router.delete('/:token', auth, async (ctx) => {
     const {token} = ctx.params;
     const link = await models.link.findOne({ where: { token } });
     if (!link) {
@@ -84,7 +87,7 @@ router.delete('/:token', async (ctx) => {
  * @apiName CreateReference
  * @apiGroup Reference
  */
-router.post('/:token/references', async (ctx: any) => {
+router.post('/:token/references', auth, async (ctx: any) => {
     const {token} = ctx.params;
     const {url, userAgent} = ctx.request.body;
     const [link, created] = await models.link.findOrCreate({ where: { token } });
@@ -101,7 +104,7 @@ router.post('/:token/references', async (ctx: any) => {
  * @apiName DeleteReference
  * @apiGroup Reference
  */
-router.delete('/:token/references/:refId', async (ctx) => {
+router.delete('/:token/references/:refId', auth, async (ctx) => {
     const {token, refId} = ctx.params;
     const link = await models.link.findOne({ where: { token } });
     if (!link) {
