@@ -38,19 +38,26 @@ router.get('/', async (ctx) => {
  * @api {PUT} /:token Create or update link
  * @apiName PutLink
  * @apiGroup Link
+ * @apiParam {String} url Target url
+ * @apiParam {String} token
  */
 router.put('/:token', async (ctx: any) => {
     const {token} = ctx.params;
-    const {url} = ctx.request.body;
+    const {body} = ctx.request;
     const link = await models.link.findOne({
         where: {
             linkToken: token
         }
     });
     if (!link) {
-        await models.link.create({linkToken: token, linkUrl: url});
+        await models.link.create({linkToken: token, linkUrl: body.url});
     } else {
-        link.set('linkUrl', url);
+        if (body.url) {
+            link.set('linkUrl', body.url);
+        }
+        if (body.token) {
+            link.set('linkToken', body.token);
+        }
         await link.save();
     }
     ctx.body = 'OK';
