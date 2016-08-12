@@ -14,14 +14,14 @@ async function redirect(ctx: Router.IRouterContext) {
     } else {
         let url = link.linkUrl;
         if (param) {
-            url = url.replace(/{{ param }}/g, param);
+            url = url.replace(/${param}/g, param);
         }
         ctx.redirect(url);
     }
 }
 
 router.get('/links/:token', redirect);
-router.get('/links/:token/:param', redirect)
+router.get('/links/:token/:param', redirect);
 
 router.get('/links', async (ctx) => {
     const links = await models.link.findAll();
@@ -35,6 +35,7 @@ router.post('/links', async (ctx: any) => {
         throw new Error('Invalid linkToken or linkUrl');
     }
     const link = await models.link.create({linkToken, linkUrl});
+    ctx.body = 'OK';
 });
 
 export default router;
