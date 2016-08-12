@@ -17,8 +17,8 @@ app.use(async (ctx, next) => {
 app.use(bodyParser());
 
 app.use(async (ctx, next) => {
-    // ctx.set('X-Redirect-Service-Version', pkg.version);
-    next();
+    ctx.set('X-Redirect-Service-Version', pkg.version);
+    await next();
 });
 
 app.use(router.routes());
