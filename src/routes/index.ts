@@ -2,8 +2,8 @@ import * as Router from 'koa-router';
 import models from '../models';
 const router = new Router();
 
-router.get('/links/:token', async (ctx) => {
-    const {token} = ctx.params;
+async function redirect(ctx: Router.IRouterContext) {
+    const {token, param} = ctx.params;
     const link = await models.link.findOne({
         where: {
             linkToken: token
@@ -12,9 +12,16 @@ router.get('/links/:token', async (ctx) => {
     if (!link) {
         ctx.status = 404;
     } else {
-        ctx.redirect(link.linkUrl);
+        let url = link.linkUrl;
+        if (param) {
+            url = url.replace(/{{ param }}/g, param);
+        }
+        ctx.redirect(url);
     }
-});
+}
+
+router.get('/links/:token', redirect);
+router.get('/links/:token/:param', redirect)
 
 router.get('/links', async (ctx) => {
     const links = await models.link.findAll();
