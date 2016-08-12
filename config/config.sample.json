@@ -1,29 +1,50 @@
 {
   "development": {
-    "username": "root",
-    "password": null,
-    "database": "database_development",
-    "host": "127.0.0.1",
-    "dialect": "mysql",
-    "dialectOptions": {
-        "charset": "utf8"
+    "database": {
+      "username": "username",
+      "password": "password",
+      "database": "database_name",
+      "host": "127.0.0.1",
+      "dialect": "mysql",
+      "dialectOptions": {
+          "charset": "utf8"
+      }
+    },
+    "authorization": {
+      "username": "basic auth username",
+      "password": "basic auth password"
     }
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "database": {
+      "username": "username",
+      "password": "password",
+      "database": "database_name",
+      "host": "127.0.0.1",
+      "dialect": "mysql",
+      "dialectOptions": {
+          "charset": "utf8"
+      }
+    },
+    "authorization": {
+      "username": "basic auth username",
+      "password": "basic auth password"
+    }
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql",
-    "dialectOptions": {
-        "charset": "utf8"
+    "database": {
+      "username": "username",
+      "password": "password",
+      "database": "database_name",
+      "host": "127.0.0.1",
+      "dialect": "mysql",
+      "dialectOptions": {
+          "charset": "utf8"
+      }
+    },
+    "authorization": {
+      "username": "basic auth username",
+      "password": "basic auth password"
     }
   }
 }
