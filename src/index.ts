@@ -3,6 +3,7 @@ import * as bodyParser from 'koa-bodyparser';
 import router from './routes';
 const app = new Koa();
 const pkg = require('../package');
+const kcors = require('kcors');
 
 app.use(async (ctx, next) => {
     try {
@@ -19,6 +20,14 @@ app.use(async (ctx, next) => {
 });
 
 app.use(bodyParser());
+app.use(kcors({
+    origin: (ctx: any) => {
+        const origin = ctx.header.origin;
+        if(['https://cms.catch.cc', 'http://dcms.catch.cc'].indexOf(origin) >= 0) {
+            return origin;
+        }
+    }
+}));
 
 app.use(async (ctx, next) => {
     ctx.set('X-Redirect-Service-Version', pkg.version);
