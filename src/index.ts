@@ -8,9 +8,10 @@ app.use(async (ctx, next) => {
     try {
         await next();
     } catch (e) {
-        console.error(e);
         if (e.status === 401) {
             ctx.set('WWW-Authenticate', 'Basic');
+        } else {
+            console.error(e);
         }
         ctx.status = e.status || 500;
         ctx.body = e.message || 'Internal Server Error';
